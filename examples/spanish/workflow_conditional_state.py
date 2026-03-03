@@ -62,7 +62,7 @@ def parse_review_decision(message: Any) -> ReviewDecision | None:
     if not isinstance(message, AgentExecutorResponse):
         return None
 
-    return message.agent_response.value
+    return ReviewDecision.model_validate_json(message.agent_response.text)
 
 
 # Funciones de condición — reciben el mensaje del ejecutor anterior.

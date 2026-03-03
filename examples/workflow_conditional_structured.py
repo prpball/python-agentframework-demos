@@ -66,7 +66,7 @@ def parse_review_decision(message: Any) -> ReviewDecision | None:
     if not isinstance(message, AgentExecutorResponse):
         return None
 
-    return message.agent_response.value
+    return ReviewDecision.model_validate_json(message.agent_response.text)
 
 
 def is_approved(message: Any) -> bool:
@@ -142,6 +142,7 @@ async def main():
     print(f"Prompt: {prompt}\n")
     events = await workflow.run(prompt)
     for output in events.get_outputs():
+        print('Output:')
         print(output)
 
     if async_credential:

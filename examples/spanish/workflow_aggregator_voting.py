@@ -87,7 +87,7 @@ class TallyVotes(Executor):
         """Cuenta votos de clasificadores y devuelve la categoría ganadora."""
         votes: list[tuple[str, str]] = []
         for result in results:
-            classification: Classification = result.agent_response.value
+            classification = Classification.model_validate_json(result.agent_response.text)
             votes.append((result.executor_id, classification.category.value))
 
         labels = [label for _, label in votes]

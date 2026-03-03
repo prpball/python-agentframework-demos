@@ -62,7 +62,7 @@ def parse_review_decision(message: Any) -> ReviewDecision | None:
     if not isinstance(message, AgentExecutorResponse):
         return None
 
-    return message.agent_response.value
+    return ReviewDecision.model_validate_json(message.agent_response.text)
 
 
 # Condition functions — receive the message from the previous executor.
@@ -148,6 +148,7 @@ workflow = (
     .add_edge(editor, store_post_text)
     .build()
 )
+
 
 async def main():
     prompt = "Write a LinkedIn post predicting the 5 jobs AI agents will replace by December 2026."

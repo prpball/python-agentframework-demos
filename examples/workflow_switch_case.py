@@ -87,7 +87,7 @@ classifier = Agent(
 @executor(id="extract_category")
 async def extract_category(response: AgentExecutorResponse, ctx: WorkflowContext[ClassifyResult]) -> None:
     """Parse the classifier's structured JSON output and send it downstream."""
-    result: ClassifyResult = response.agent_response.value
+    result = ClassifyResult.model_validate_json(response.agent_response.text)
     print(f"→ Classified as: {result.category} — {result.reasoning}")
     await ctx.send_message(result)
 

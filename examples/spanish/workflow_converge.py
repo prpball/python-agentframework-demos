@@ -60,7 +60,7 @@ def parse_review_result(message: Any) -> ReviewResult | None:
     if not isinstance(message, AgentExecutorResponse):
         return None
 
-    return message.agent_response.value
+    return ReviewResult.model_validate_json(message.agent_response.text)
 
 
 def is_approved(message: Any) -> bool:
